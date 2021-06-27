@@ -11,6 +11,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
+    private String oAuthId;
 
     protected User() {}
 
@@ -44,5 +45,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getoAuthId() {
+        return oAuthId;
+    }
+
+    public void setoAuthId(String oAuthId) {
+        this.oAuthId = oAuthId;
     }
 }
