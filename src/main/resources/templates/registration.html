@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <title>Register</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link th:rel="stylesheet" th:href="@{/assets/bootstrap/css/bootstrap.min.css} "/>
+</head>
+<body>
+<h1>Registration Form</h1>
+<form action="#" th:action="@{/registration}" th:object="${user}" method="POST" enctype="utf8">
+  <div>
+    <label>first</label>
+    <input th:field="*{firstName}"/>
+
+  </div>
+  <div>
+    <label>last</label>
+    <input th:field="*{lastName}"/>
+
+  </div>
+  <div>
+    <label>email</label>
+    <input type="email" th:field="*{email}"/>
+
+  </div>
+  <div>
+    <label >password</label>
+    <input type="password" th:field="*{password}"/>
+
+  </div>
+  <div>
+    <label >confirm</label>
+    <input type="password" th:field="*{matchingPassword}"/>
+  </div>
+  <input type="submit" >submit</input>
+</form>
+
+<a th:href="@{/login.html}" >login</a>
+
+
+
+<script th:src="@{/assets/jquery/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/assets/popperjs/popper.min.js}"></script>
+<script th:src="@{/assets/bootstrap/js/bootstrap.min.js}"></script>
+
+
+</body>
+</html>
