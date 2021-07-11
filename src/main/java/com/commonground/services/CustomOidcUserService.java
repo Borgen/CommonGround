@@ -2,7 +2,6 @@ package com.commonground.services;
 
 import com.commonground.dto.*;
 import com.commonground.entity.*;
-import com.commonground.repositories.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.authentication.*;
 import org.springframework.security.oauth2.client.oidc.userinfo.*;
@@ -16,7 +15,7 @@ import java.util.*;
 public class CustomOidcUserService extends OidcUserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Override
     public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
@@ -34,11 +33,11 @@ public class CustomOidcUserService extends OidcUserService {
 
         // see what other data from userRequest or oidcUser you need
 
-        Optional<User> userOptional = userRepository.findByEmail(googleUserInfo.getEmail());
+        Optional<User> userOptional = userService.findByEmail(googleUserInfo.getEmail());
         if (!userOptional.isPresent()) {
             User user = new User(googleUserInfo.getFirstName(), googleUserInfo.getLastName(), googleUserInfo.getEmail());
             user.setoAuthId(googleUserInfo.getId());
-            userRepository.save(user);
+            userService.save(user);
         }
 
         return oidcUser;

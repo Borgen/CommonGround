@@ -8,9 +8,14 @@ public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+
     private String firstName;
+
     private String lastName;
+
+    @Column(unique = true)
     private String email;
+
     private String oAuthId;
 
     protected User() {}
@@ -18,6 +23,7 @@ public class User {
     public User(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
     }
 
     @Override

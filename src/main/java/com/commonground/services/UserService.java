@@ -14,8 +14,12 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void add(User newUser){
+    public void save(User newUser){
         userRepository.save(newUser);
+    }
+
+    public Optional<User> findByEmail(String email){
+        return userRepository.findByEmail(email);
     }
 
     public List<User> list(){

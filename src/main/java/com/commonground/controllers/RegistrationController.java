@@ -24,7 +24,7 @@ public class RegistrationController {
 
     @PostMapping("/user/registration")
     public String submitRegistrationForm(@ModelAttribute UserDto userDto, Model model) {
-        userService.add(new User(userDto.getFirstName(), userDto.getLastName(), userDto.getEmail()));
+        userService.save(new User(userDto.getFirstName(), userDto.getLastName(), userDto.getEmail()));
         return "success";
     }
 }
