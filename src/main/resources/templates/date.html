@@ -6,7 +6,9 @@
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
 </head>
 <body>
-<h1>Common Ground Form</h1>
+
+<div class="d-flex flex-row justify-content-center align-items-center" style="height: 400px;">
+    <h3>When are you available?</h3>
 <form action="#" th:action="@{/date}" th:object="${dateInput}" method="POST" enctype="utf8">
     <div class="form-group">
         <label>Availability Start Date: </label>
@@ -18,6 +20,7 @@
     <button type="submit" class="btn btn-primary" > Submit </button>
 </form>
 
+</div>
 <script th:src="@{/webjars/jquery/jquery-3.6.0.min.js}"></script>
 <script th:src="@{/webjars/popperjs/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
