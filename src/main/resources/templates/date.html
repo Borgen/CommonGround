@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Set Your Common Ground</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
+</head>
+<body>
+<h1>Common Ground Form</h1>
+<form action="#" th:action="@{/date}" th:object="${dateInput}" method="POST" enctype="utf8">
+    <div class="form-group">
+        <label>Availability Start Date: </label>
+        <input type="datetime-local" class="form-control" th:field="*{startDate}"/>
+
+        <label>Availability End Date: </label>
+        <input type="datetime-local" class="form-control" th:field="*{endDate}"/>
+    </div>
+    <button type="submit" class="btn btn-primary" > Submit </button>
+</form>
+
+<script th:src="@{/webjars/jquery/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/webjars/popperjs/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+
+</body>
+</html>
