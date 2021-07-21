@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface IAuthenticationFacade {
     public Authentication getAuthentication();
-    public Optional<User> getUser();
+    public User getUser() throws Exception;
 
 }

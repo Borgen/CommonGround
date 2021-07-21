@@ -15,4 +15,5 @@ public interface CommonGroundRepository extends JpaRepository<CommonGround, Long
     Optional<CommonGround> findById(Long aLong);
 
     List<CommonGround> findByUser(User user);
+
 }

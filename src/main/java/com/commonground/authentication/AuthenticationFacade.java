@@ -24,11 +24,14 @@ public class AuthenticationFacade implements IAuthenticationFacade {
     }
 
     @Override
-    public Optional<User> getUser() {
+    public User getUser() throws Exception {
         DefaultOidcUser principal = (DefaultOidcUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
        GoogleUserInfo googleUserInfo = new GoogleUserInfo(principal.getAttributes());
-       Optional<User> user = userService.findByEmail(googleUserInfo.getEmail());
-       return user;
+       Optional<User> optionalUser = userService.findByEmail(googleUserInfo.getEmail());
+       if(optionalUser.isPresent()){
+           return optionalUser.get();
+       }
+       throw new Exception("User not found!");
     }
 
 }

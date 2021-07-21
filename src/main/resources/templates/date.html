@@ -19,7 +19,26 @@
     </div>
     <button type="submit" class="btn btn-primary" > Submit </button>
 </form>
+</div>
 
+<div class="container">
+    <table>
+        <thead>
+        <tr>
+            <th>Availability Start Date</th>
+            <th>End Date </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${currentAvailableDates.empty}">
+            <td colspan="2"> No Books Available </td>
+        </tr>
+        <tr th:each="availableDate : ${currentAvailableDates}">
+            <td><span th:text="${availableDate.startDate}"> Start Date </span></td>
+            <td><span th:text="${availableDate.endDate}"> End Date </span></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 <script th:src="@{/webjars/jquery/jquery-3.6.0.min.js}"></script>
 <script th:src="@{/webjars/popperjs/popper.min.js}"></script>
