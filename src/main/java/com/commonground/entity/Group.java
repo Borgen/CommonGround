@@ -23,4 +23,24 @@ public class Group {
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifyDate;
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public Date getModifyDate() {
+        return modifyDate;
+    }
+
 }
