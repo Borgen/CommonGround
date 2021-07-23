@@ -24,7 +24,7 @@
         <includeCallerData>true</includeCallerData>
     </appender>
 
-    <logger name="com.commonground.db.logger" level="INFO">
+    <logger name="com.commonground.logging.DbLogger" level="INFO">
         <appender-ref ref="DBAppPostgreSQL" />
     </logger>
 
