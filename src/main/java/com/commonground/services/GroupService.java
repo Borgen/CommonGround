@@ -2,7 +2,12 @@ package com.commonground.services;
 
 import ch.qos.logback.classic.Logger;
 import com.commonground.entity.Group;
+import com.commonground.entity.GroupMembers;
+import com.commonground.entity.User;
+import com.commonground.logging.DbLogger;
+import com.commonground.repositories.GroupMembersRepository;
 import com.commonground.repositories.GroupRepository;
+import jdk.jshell.spi.ExecutionControl;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +22,9 @@ public class GroupService {
     @Autowired
     private GroupRepository groupRepository;
 
+    @Autowired
+    private GroupMembersRepository groupMembersRepository;
+
     public void save(Group group){
         groupRepository.save(group);
     }
@@ -26,5 +34,19 @@ public class GroupService {
             return optGroup.get();
         }
         else throw new Exception("Group not found!");
+    }
+
+    public void addGroupMemberToGroup(Group group, User user, Boolean isOwner) throws Exception {
+        Optional<Group> groupEntity = groupRepository.findByName(group.getName());
+        GroupMembers groupMembersEntity = new GroupMembers();
+        if(groupEntity.isPresent()){
+            groupMembersEntity.setGroup(groupEntity.get());
+            groupMembersEntity.setMember(user);
+            groupMembersEntity.setOwner(isOwner);
+            groupMembersRepository.save(groupMembersEntity);
+        }else{
+            DbLogger.logger.error("Couldn't add group member to group because can't find group");
+            throw new Exception("Error while adding group member!");
+        }
     }
 }

@@ -6,7 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity(name="Group")
+@Entity(name="Groups")
 public class Group {
 
     @Id
