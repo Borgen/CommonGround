@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Groups</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
+
+    <table>
+        <thead>
+        <tr>
+            <th> Date Created </th>
+            <th> Name </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="currentGroup : ${groups}">
+            <td th:text="${currentGroup.getCreateDate()}" ></td>
+            <td th:text="${currentGroup.getName()}"></td>
+        </tr>
+        </tbody>
+
+    </table>
+</head>
+<body>
+
+</body>
+</html>

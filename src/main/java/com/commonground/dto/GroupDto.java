@@ -1,11 +1,13 @@
 package com.commonground.dto;
 
+import com.commonground.entity.GroupMembers;
+
 import java.util.List;
 
 public class GroupDto {
 
     private String name;
-    private List<String> memberIdList;
+    private List<GroupMembers> members;
 
     public String getName() {
         return name;
@@ -15,11 +17,12 @@ public class GroupDto {
         this.name = name;
     }
 
-    public List<String> getMemberIdList() {
-        return memberIdList;
+
+    public List<GroupMembers> getMembers() {
+        return members;
     }
 
-    public void setMemberIdList(List<String> memberIdList) {
-        this.memberIdList = memberIdList;
+    public void setMembers(List<GroupMembers> members) {
+        this.members = members;
     }
 }

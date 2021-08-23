@@ -3,7 +3,6 @@ package com.commonground.controllers;
 import com.commonground.authentication.IAuthenticationFacade;
 import com.commonground.dto.GroupDto;
 import com.commonground.entity.Group;
-import com.commonground.entity.GroupMembers;
 import com.commonground.services.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,6 +40,12 @@ public class GroupController {
         groupService.addGroupMemberToGroup(groupEntity, authenticationFacade.getUser(), true);
 
         return "success";
+    }
+
+    @GetMapping("/list/owner")
+    public String showListOfOwnedGroups(WebRequest request, Model model) throws Exception {
+        model.addAttribute("groups", groupService.listGroupsByOwner(authenticationFacade.getUser()));
+        return "listownedgroups";
     }
 
 }

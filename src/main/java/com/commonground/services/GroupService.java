@@ -1,6 +1,7 @@
 package com.commonground.services;
 
 import ch.qos.logback.classic.Logger;
+import com.commonground.dto.GroupDto;
 import com.commonground.entity.Group;
 import com.commonground.entity.GroupMembers;
 import com.commonground.entity.User;
@@ -12,12 +13,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class GroupService {
-
-    final static Logger logger = (Logger) LoggerFactory.getLogger(GroupService.class);
 
     @Autowired
     private GroupRepository groupRepository;
@@ -35,7 +36,6 @@ public class GroupService {
         }
         else throw new Exception("Group not found!");
     }
-
     public void addGroupMemberToGroup(Group group, User user, Boolean isOwner) throws Exception {
         Optional<Group> groupEntity = groupRepository.findByName(group.getName());
         GroupMembers groupMembersEntity = new GroupMembers();
@@ -48,5 +48,12 @@ public class GroupService {
             DbLogger.logger.error("Couldn't add group member to group because can't find group");
             throw new Exception("Error while adding group member!");
         }
+    }
+    public List<Group> listGroupsByOwner(User user){
+        Optional<List<GroupMembers>> groupMembersList = groupMembersRepository.findGroupMembersByMemberAndIsOwner(user, true);
+        if(groupMembersList.isEmpty()){
+            DbLogger.logger.error("No group found by this owner!");
+        }
+        return groupMembersList.get().stream().map(GroupMembers::getGroup).collect(Collectors.toList());
     }
 }
