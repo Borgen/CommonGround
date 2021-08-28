@@ -49,11 +49,15 @@ public class GroupService {
             throw new Exception("Error while adding group member!");
         }
     }
-    public List<Group> listGroupsByOwner(User user){
-        Optional<List<GroupMembers>> groupMembersList = groupMembersRepository.findGroupMembersByMemberAndIsOwner(user, true);
+    public List<GroupMembers> listGroupMembersByMember(User user){
+        Optional<List<GroupMembers>> groupMembersList = groupMembersRepository.findGroupMembersByMember(user);
         if(groupMembersList.isEmpty()){
-            DbLogger.logger.error("No group found by this owner!");
+            DbLogger.logger.error("No group found by this member!");
         }
-        return groupMembersList.get().stream().map(GroupMembers::getGroup).collect(Collectors.toList());
+        return groupMembersList.get();
+    }
+    public List<GroupMembers> listGroupMembersByGroupName(String name) throws Exception {
+        Group group = findByName(name);
+        return groupMembersRepository.findByGroup(group).get();
     }
 }

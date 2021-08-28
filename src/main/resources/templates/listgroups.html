@@ -18,6 +18,7 @@
         <tr th:each="currentGroup : ${groups}">
             <td th:text="${currentGroup.getCreateDate()}" ></td>
             <td th:text="${currentGroup.getName()}"></td>
+            <td><a href="/group/details" th:href="@{/group/details(groupName=${currentGroup.getName()})}">Details...</a></td>
         </tr>
         </tbody>
 

@@ -3,15 +3,16 @@ package com.commonground.controllers;
 import com.commonground.authentication.IAuthenticationFacade;
 import com.commonground.dto.GroupDto;
 import com.commonground.entity.Group;
+import com.commonground.entity.GroupMembers;
 import com.commonground.services.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/group")
@@ -42,10 +43,18 @@ public class GroupController {
         return "success";
     }
 
-    @GetMapping("/list/owner")
-    public String showListOfOwnedGroups(WebRequest request, Model model) throws Exception {
-        model.addAttribute("groups", groupService.listGroupsByOwner(authenticationFacade.getUser()));
-        return "listownedgroups";
+    @GetMapping("/list")
+    public String showListOfUserGroups(WebRequest request, Model model) throws Exception {
+        List<GroupMembers> groupMembers = groupService.listGroupMembersByMember(authenticationFacade.getUser());
+        List<Group> groups = groupMembers.stream().map(GroupMembers :: getGroup).collect(Collectors.toList());
+        model.addAttribute("groups", groups);
+        return "listgroups";
+    }
+
+    @GetMapping("/details")
+    public String showDetailsOfUserGroups(WebRequest request, @RequestParam String groupName, Model model) throws Exception {
+        model.addAttribute("groupMembers", groupService.listGroupMembersByGroupName(groupName));
+        return "groupdetails";
     }
 
 }
