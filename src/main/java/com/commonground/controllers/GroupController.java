@@ -4,13 +4,16 @@ import com.commonground.authentication.IAuthenticationFacade;
 import com.commonground.dto.GroupDto;
 import com.commonground.entity.Group;
 import com.commonground.entity.GroupMembers;
+import com.commonground.logging.DbLogger;
 import com.commonground.services.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,6 +58,27 @@ public class GroupController {
     public String showDetailsOfUserGroups(WebRequest request, @RequestParam String groupName, Model model) throws Exception {
         model.addAttribute("groupMembers", groupService.listGroupMembersByGroupName(groupName));
         return "groupdetails";
+    }
+
+    @RequestMapping(value="/searchname", method=RequestMethod.GET, produces="text/plain")
+    @ResponseBody
+    public ResponseEntity<List<String>> searchName(WebRequest request, @RequestParam String term) {
+
+        List<String> probableGroupNameList = new ArrayList<String>();
+
+        try{
+            probableGroupNameList = groupService.searchByGroupName(term);
+        }
+        catch (Exception ex){
+            DbLogger.logger.error("group name autocomplete error: " + ex.getMessage());
+        }
+
+        return ResponseEntity.ok(probableGroupNameList);
+    }
+
+    @GetMapping("/search")
+    public String search() {
+        return "searchgroups";
     }
 
 }

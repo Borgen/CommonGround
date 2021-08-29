@@ -60,4 +60,8 @@ public class GroupService {
         Group group = findByName(name);
         return groupMembersRepository.findByGroup(group).get();
     }
+
+    public  List<String> searchByGroupName(String keyword){
+        return groupRepository.searchName(keyword);
+    }
 }
