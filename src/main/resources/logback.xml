@@ -15,7 +15,7 @@
         <driverClass>org.postgresql.Driver</driverClass>
         <url>jdbc:postgresql://localhost:5432/commonground</url>
         <user>postgres</user>
-        <password>123456</password>
+        <password>258456</password>
         </connectionSource>
     </appender>
 

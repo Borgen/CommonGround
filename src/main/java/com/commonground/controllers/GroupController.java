@@ -60,20 +60,10 @@ public class GroupController {
         return "groupdetails";
     }
 
-    @RequestMapping(value="/searchname", method=RequestMethod.GET, produces="text/plain")
+    @RequestMapping(value="/searchname", method=RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<List<String>> searchName(WebRequest request, @RequestParam String term) {
-
-        List<String> probableGroupNameList = new ArrayList<String>();
-
-        try{
-            probableGroupNameList = groupService.searchByGroupName(term);
-        }
-        catch (Exception ex){
-            DbLogger.logger.error("group name autocomplete error: " + ex.getMessage());
-        }
-
-        return ResponseEntity.ok(probableGroupNameList);
+    public List<String> searchName(WebRequest request, @RequestParam String term) {
+        return groupService.searchByGroupName(term);
     }
 
     @GetMapping("/search")
