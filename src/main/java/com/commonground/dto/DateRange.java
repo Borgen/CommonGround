@@ -1,14 +1,14 @@
 package com.commonground.dto;
 
-public class DateInput {
+public class DateRange {
 
     private String startDate;
     private String endDate;
 
-    public  DateInput(){
+    public DateRange(){
 
     }
-    public DateInput(String startDate, String endDate){
+    public DateRange(String startDate, String endDate){
         this.startDate = startDate;
         this.endDate = endDate;
     }

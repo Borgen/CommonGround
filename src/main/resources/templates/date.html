@@ -9,7 +9,7 @@
 
 <div class="d-flex flex-row justify-content-center align-items-center" style="height: 400px;">
     <h3>When are you available?</h3>
-<form action="#" th:action="@{/date}" th:object="${dateInput}" method="POST" enctype="utf8">
+<form action="#" th:action="@{/date}" th:object="${dateRange}" method="POST" enctype="utf8">
     <div class="form-group">
         <label>Availability Start Date: </label>
         <input type="datetime-local" class="form-control" th:field="*{startDate}"/>

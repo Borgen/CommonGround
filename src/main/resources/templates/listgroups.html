@@ -12,13 +12,17 @@
         <tr>
             <th> Date Created </th>
             <th> Name </th>
+            <th> CommonGround Start </th>
+            <th> CommonGround End </th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="currentGroup : ${groups}">
-            <td th:text="${currentGroup.getCreateDate()}" ></td>
-            <td th:text="${currentGroup.getName()}"></td>
-            <td><a href="/group/details" th:href="@{/group/details(groupName=${currentGroup.getName()})}">Details...</a></td>
+        <tr th:each="current, iteration : ${groups}">
+            <td th:text="${current.getGroup().getCreateDate()}"></td>
+            <td th:text="${current.getGroup().getName()}"></td>
+            <td th:text="${current.getDateRange().getStartDate()}"></td>
+            <td th:text="${current.getDateRange().getEndDate()}"></td>
+            <td><a href="/group/details" th:href="@{/group/details(groupName=${current.getGroup().getName()})}">Details...</a></td>
         </tr>
         </tbody>
 

@@ -1,20 +1,16 @@
 package com.commonground.controllers;
 
 import com.commonground.authentication.IAuthenticationFacade;
-import com.commonground.dto.GroupDto;
-import com.commonground.entity.Group;
-import com.commonground.entity.GroupMembers;
-import com.commonground.logging.DbLogger;
-import com.commonground.services.GroupService;
+import com.commonground.dto.*;
+import com.commonground.entity.*;
+import com.commonground.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -25,7 +21,10 @@ public class GroupController {
     private IAuthenticationFacade authenticationFacade;
 
     @Autowired
-    GroupService groupService;
+    private CommonGroundService commonGroundService;
+
+    @Autowired
+    private GroupService groupService;
 
     @GetMapping("/create")
     public  String showGroupCreateForm(WebRequest request, Model model){
@@ -50,7 +49,17 @@ public class GroupController {
     public String showListOfUserGroups(WebRequest request, Model model) throws Exception {
         List<GroupMembers> groupMembers = groupService.listGroupMembersByMember(authenticationFacade.getUser());
         List<Group> groups = groupMembers.stream().map(GroupMembers :: getGroup).collect(Collectors.toList());
-        model.addAttribute("groups", groups);
+        List<GroupDto> groupDtoList = new ArrayList<GroupDto>();
+        for(Group group :  groups){
+            GroupDto groupDto = new GroupDto();
+            CommonGround commonGround = commonGroundService.getCommonGroundOfGroup(group);
+            DateRange dateRange = new DateRange(commonGround.getStartDateTime().toString(), commonGround.getEndDateTime().toString());
+            groupDto.setGroup(groupService.findByName(group.getName()));
+            groupDto.setDateRange(dateRange);
+            groupDtoList.add(groupDto);
+        }
+
+        model.addAttribute("groups", groupDtoList);
         return "listgroups";
     }
 

@@ -1,25 +1,24 @@
 package com.commonground.entity;
 
-import org.hibernate.annotations.*;
-import org.springframework.format.annotation.*;
+import org.apache.tomcat.jni.Local;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.time.*;
-import java.util.*;
+import java.util.Date;
+import java.time.LocalDateTime;
 
-@Table(name = "common_ground")
-@Entity
-public class CommonGround {
+@Entity(name="UserAvailabilty")
+public class UserAvailability {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="groupId")
-    private Group group;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="userId")
+    private User user;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Basic
@@ -37,15 +36,12 @@ public class CommonGround {
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifyDate;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public Group getGroup() {
-        return group;
+    public User getUser() {
+        return user;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public LocalDateTime getStartDateTime() {
@@ -62,5 +58,9 @@ public class CommonGround {
 
     public void setEndDateTime(LocalDateTime endDateTime) {
         this.endDateTime = endDateTime;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

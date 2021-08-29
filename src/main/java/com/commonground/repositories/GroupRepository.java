@@ -16,4 +16,5 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
 
     @Query(value = "SELECT name FROM Groups where name LIKE %:keyword%", nativeQuery = true)
     public List<String> searchName(@Param("keyword") String keyword);
+
 }
