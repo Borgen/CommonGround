@@ -2,26 +2,28 @@
 <html lang="en">
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Create A Group!</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
-    <link th:rel="stylesheet" th:href="@{/webjars/jquery-ui/jquery-ui.theme.css} "/>
-    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-    <script th:src="@{/webjars/jquery-ui/jquery-ui.js}"></script>
-
+    <div th:replace="/fragments/basic :: headerfiles"></div>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <title>Search Existing Groups!</title>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#groupName').autocomplete({
                 source: '/group/searchname',
-                minLength: 2
+                minLength: 2,
+                select: function (event, ui) {
+                    if (ui.item) {
+                        $("#groupName").text(ui.item.name);
+                        alert(ui.item.id);
+                    }
+                }
             });
         });
+
     </script>
 </head>
 <body>
 
-<input type="text" id="groupName">
+    <input id="groupName" name="groupName" type="text" />
 
 </body>
 </html>

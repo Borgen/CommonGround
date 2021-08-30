@@ -2,33 +2,31 @@
 <html lang="en">
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <div th:replace="/fragments/basic :: headerfiles"></div>
     <title>Your Groups</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
-
-    <table>
-        <thead>
-        <tr>
-            <th> Date Created </th>
-            <th> Name </th>
-            <th> CommonGround Start </th>
-            <th> CommonGround End </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="current, iteration : ${groups}">
-            <td th:text="${current.getGroup().getCreateDate()}"></td>
-            <td th:text="${current.getGroup().getName()}"></td>
-            <td th:text="${current.getDateRange().getStartDate()}"></td>
-            <td th:text="${current.getDateRange().getEndDate()}"></td>
-            <td><a href="/group/details" th:href="@{/group/details(groupName=${current.getGroup().getName()})}">Details...</a></td>
-        </tr>
-        </tbody>
-
-    </table>
 </head>
+
 <body>
 
+<table>
+    <thead>
+    <tr>
+        <th> Date Created </th>
+        <th> Name </th>
+        <th> CommonGround Start </th>
+        <th> CommonGround End </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="current, iteration : ${groups}">
+        <td th:text="${current.getGroup().getCreateDate()}"></td>
+        <td th:text="${current.getGroup().getName()}"></td>
+        <td th:text="${current.getDateRange().getStartDate()}"></td>
+        <td th:text="${current.getDateRange().getEndDate()}"></td>
+        <td><a href="/group/details" th:href="@{/group/details(groupName=${current.getGroup().getName()})}">Details...</a></td>
+    </tr>
+    </tbody>
+
+</table>
 </body>
 </html>

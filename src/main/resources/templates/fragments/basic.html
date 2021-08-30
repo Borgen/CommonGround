@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+
+<div th:fragment="headerfiles" th:remove="tag">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{/webjars/jquery-ui/jquery-ui.theme.css} "/>
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/jquery-ui/jquery-ui.js}"></script>
+</div>
+
+
+</body>
+</html>

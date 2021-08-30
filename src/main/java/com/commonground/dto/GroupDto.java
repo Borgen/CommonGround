@@ -9,9 +9,6 @@ public class GroupDto {
     private String name;
     private List<GroupMembers> members;
     private DateRange dateRange;
-
-
-
     private  Group group;
 
     public String getName() {

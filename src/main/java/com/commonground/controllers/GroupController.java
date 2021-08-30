@@ -71,7 +71,7 @@ public class GroupController {
 
     @RequestMapping(value="/searchname", method=RequestMethod.GET)
     @ResponseBody
-    public List<String> searchName(WebRequest request, @RequestParam String term) {
+    public List<Group> searchName(WebRequest request, @RequestParam String term) {
         return groupService.searchByGroupName(term);
     }
 
