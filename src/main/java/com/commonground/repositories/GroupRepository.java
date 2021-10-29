@@ -9,12 +9,15 @@ import org.springframework.stereotype.*;
 import java.util.*;
 
 @Repository
-public interface GroupRepository extends JpaRepository<Group, Long> {
+public interface GroupRepository extends JpaRepository<Group, UUID> {
 
-    Optional<Group> findByName(String name);
-    Optional<Group> findById(Long id);
+    public Optional<Group> findByName(String name);
+    public Optional<Group> findById(UUID id);
+    public Group findByJoinPhrase(String joinPhrase);
 
     @Query(value = "SELECT name FROM Groups where name LIKE %:keyword%", nativeQuery = true)
     public List<String> searchName(@Param("keyword") String keyword);
 
+    @Query(value = "SELECT g.* FROM groups g JOIN group_member gm on g.id = gm.group_id where gm.member_id = :userId", nativeQuery = true)
+    public List<Group> findByMember(@Param("userId") UUID userId);
 }

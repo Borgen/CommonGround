@@ -5,13 +5,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.UUID;
 
-@Entity(name="GroupMembers")
-public class GroupMembers {
+@Entity(name="GroupMember")
+public class GroupMember {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private  Long id;
+    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="groupId")
@@ -31,7 +32,7 @@ public class GroupMembers {
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifyDate;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 

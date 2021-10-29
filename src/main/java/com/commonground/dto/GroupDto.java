@@ -7,7 +7,7 @@ import java.util.List;
 public class GroupDto {
 
     private String name;
-    private List<GroupMembers> members;
+    private List<GroupMember> members;
     private DateRange dateRange;
 
 
@@ -22,11 +22,11 @@ public class GroupDto {
         this.name = name;
     }
 
-    public List<GroupMembers> getMembers() {
+    public List<GroupMember> getMembers() {
         return members;
     }
 
-    public void setMembers(List<GroupMembers> members) {
+    public void setMembers(List<GroupMember> members) {
         this.members = members;
     }
 

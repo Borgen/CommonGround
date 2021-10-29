@@ -1,6 +1,5 @@
 package com.commonground.services;
 
-import com.commonground.authentication.*;
 import com.commonground.entity.*;
 import com.commonground.repositories.*;
 import org.springframework.beans.factory.annotation.*;
@@ -24,9 +23,13 @@ public class CommonGroundService {
 
     public CommonGround getCommonGroundOfGroup(Group group) throws Exception {
 
-        List<GroupMembers> groupMembersList = groupService.listGroupMembersByGroupName(group.getName());
+        List<GroupMember> groupMemberList = group.getMembers();
 
-        List<User> userList = groupMembersList.stream().map(GroupMembers::getMember).collect(Collectors.toList());
+        if(groupMemberList.size() == 0){
+            throw new Exception("No member in group!");
+        }
+
+        List<User> userList = groupMemberList.stream().map(GroupMember::getMember).collect(Collectors.toList());
 
         LocalDateTime latestStartDate = null;
         LocalDateTime earliestEndDate = null;
@@ -38,6 +41,9 @@ public class CommonGroundService {
 
         for(User user : userList){
             currUserAvailability = userAvailabilityService.getLatestAvailability();
+            if(currUserAvailability == null){
+                continue;
+            }
             currUserStartDate = currUserAvailability.getStartDateTime();
             currUserEndDate = currUserAvailability.getEndDateTime();
 
@@ -47,6 +53,10 @@ public class CommonGroundService {
             if(earliestEndDate == null || currUserEndDate.isBefore(earliestEndDate)){
                 earliestEndDate = currUserEndDate;
             }
+        }
+
+        if(latestStartDate == null || earliestEndDate == null){
+            return null;
         }
 
         CommonGround commonGround = new CommonGround();

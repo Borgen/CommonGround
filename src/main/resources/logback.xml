@@ -9,6 +9,26 @@
         </encoder>
     </appender>
 
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logFile.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+            <!-- keep 30 days' worth of history capped at 3GB total size -->
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>3GB</totalSizeCap>
+
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <appender name="DBAppPostgreSQL" class="ch.qos.logback.classic.db.DBAppender">
         <connectionSource
                 class="ch.qos.logback.core.db.DriverManagerConnectionSource">
@@ -24,12 +44,13 @@
         <includeCallerData>true</includeCallerData>
     </appender>
 
-    <logger name="com.commonground.logging.DbLogger" level="INFO">
+    <logger name="com.commonground.logging.DbLogger" level="ERROR">
         <appender-ref ref="DBAppPostgreSQL" />
     </logger>
 
     <root level="debug">
         <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" level="info" />
     </root>
 
 </configuration>

@@ -5,13 +5,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity(name="Users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private UUID id;
 
     private String firstName;
 
@@ -45,7 +46,7 @@ public class User {
                 id, firstName, lastName);
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 

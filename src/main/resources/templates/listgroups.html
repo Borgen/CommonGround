@@ -20,9 +20,10 @@
         <tr th:each="current, iteration : ${groups}">
             <td th:text="${current.getGroup().getCreateDate()}"></td>
             <td th:text="${current.getGroup().getName()}"></td>
-            <td th:text="${current.getDateRange().getStartDate()}"></td>
-            <td th:text="${current.getDateRange().getEndDate()}"></td>
+            <td th:text="${current.getDateRange()?.getStartDate()}"></td>
+            <td th:text="${current.getDateRange()?.getEndDate()}"></td>
             <td><a href="/group/details" th:href="@{/group/details(groupName=${current.getGroup().getName()})}">Details...</a></td>
+            <td><a href="/group/join" th:href="@{/group/joinlink(groupId=${current.getGroup().getId()})}">Get Your Join Link...</a></td>
         </tr>
         </tbody>
 
