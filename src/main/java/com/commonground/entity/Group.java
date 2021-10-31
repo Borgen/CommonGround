@@ -5,13 +5,15 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 @Entity(name="Groups")
 public class Group {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private  Long id;
+    private UUID id;
 
     private String name;
 
@@ -23,7 +25,12 @@ public class Group {
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifyDate;
 
-    public Long getId() {
+    @OneToMany(mappedBy = "group")
+    private List<GroupMember> members;
+
+    private String joinPhrase;
+
+    public UUID getId() {
         return id;
     }
 
@@ -43,4 +50,19 @@ public class Group {
         return modifyDate;
     }
 
+    public List<GroupMember> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<GroupMember> members) {
+        this.members = members;
+    }
+
+    public String getJoinPhrase() {
+        return joinPhrase;
+    }
+
+    public void setJoinPhrase(String joinPhrase) {
+        this.joinPhrase = joinPhrase;
+    }
 }

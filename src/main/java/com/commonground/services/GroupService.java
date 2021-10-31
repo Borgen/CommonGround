@@ -1,21 +1,20 @@
 package com.commonground.services;
 
-import ch.qos.logback.classic.Logger;
-import com.commonground.dto.GroupDto;
+import com.commonground.authentication.AuthenticationFacade;
 import com.commonground.entity.Group;
-import com.commonground.entity.GroupMembers;
+import com.commonground.entity.GroupMember;
 import com.commonground.entity.User;
 import com.commonground.logging.DbLogger;
-import com.commonground.repositories.GroupMembersRepository;
+import com.commonground.repositories.GroupMemberRepository;
 import com.commonground.repositories.GroupRepository;
-import jdk.jshell.spi.ExecutionControl;
-import org.slf4j.LoggerFactory;
+import com.commonground.util.RandomString;
+import com.nimbusds.oauth2.sdk.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @Service
 public class GroupService {
@@ -24,7 +23,10 @@ public class GroupService {
     private GroupRepository groupRepository;
 
     @Autowired
-    private GroupMembersRepository groupMembersRepository;
+    private GroupMemberRepository groupMemberRepository;
+
+    @Autowired
+    private AuthenticationFacade authenticationFacade;
 
     public void save(Group group){
         groupRepository.save(group);
@@ -36,32 +38,61 @@ public class GroupService {
         }
         else throw new Exception("Group not found!");
     }
+    public List<Group> findByMember(User user) throws Exception{
+        List<Group> groups = groupRepository.findByMember(user.getId());
+        return groups;
+    }
     public void addGroupMemberToGroup(Group group, User user, Boolean isOwner) throws Exception {
         Optional<Group> groupEntity = groupRepository.findByName(group.getName());
-        GroupMembers groupMembersEntity = new GroupMembers();
+        GroupMember groupMemberEntity = new GroupMember();
         if(groupEntity.isPresent()){
-            groupMembersEntity.setGroup(groupEntity.get());
-            groupMembersEntity.setMember(user);
-            groupMembersEntity.setOwner(isOwner);
-            groupMembersRepository.save(groupMembersEntity);
+            groupMemberEntity.setGroup(groupEntity.get());
+            groupMemberEntity.setMember(user);
+            groupMemberEntity.setOwner(isOwner);
+            groupMemberRepository.save(groupMemberEntity);
         }else{
             DbLogger.logger.error("Couldn't add group member to group because can't find group");
             throw new Exception("Error while adding group member!");
         }
     }
-    public List<GroupMembers> listGroupMembersByMember(User user){
-        Optional<List<GroupMembers>> groupMembersList = groupMembersRepository.findGroupMembersByMember(user);
-        if(groupMembersList.isEmpty()){
-            DbLogger.logger.error("No group found by this member!");
-        }
-        return groupMembersList.get();
-    }
-    public List<GroupMembers> listGroupMembersByGroupName(String name) throws Exception {
+    public List<GroupMember> listGroupMembersByGroupName(String name) throws Exception {
         Group group = findByName(name);
-        return groupMembersRepository.findByGroup(group).get();
+        return groupMemberRepository.findByGroup(group).get();
     }
 
     public  List<Group> searchByGroupName(String keyword){
         return groupRepository.searchName(keyword);
+    }
+
+
+    public String getJoinPhrase(UUID groupId) throws Exception {
+        Group group = groupRepository.getById(groupId);
+        if(group == null){
+            throw new Exception("There is no group with provided ID");
+        }
+
+        String joinPhrase = group.getJoinPhrase();
+        if(StringUtils.isBlank(joinPhrase)){
+            joinPhrase = new RandomString(10).nextString();
+            group.setJoinPhrase(joinPhrase);
+            groupRepository.save(group);
+        }
+
+        return joinPhrase;
+    }
+
+    public void addUserToGroupWithJoinPhrase(String joinPhrase) throws Exception{
+        Group group = groupRepository.findByJoinPhrase(joinPhrase);
+        List<GroupMember> groupMembers = group.getMembers();
+        User currUser = authenticationFacade.getUser();
+        if(groupMembers.stream().anyMatch(gm -> gm.getMember() == currUser)){
+            return;
+        }
+        GroupMember newGroupMember = new GroupMember();
+        newGroupMember.setGroup(group);
+        newGroupMember.setMember(currUser);
+        newGroupMember.setOwner(false);
+        groupMemberRepository.save(newGroupMember);
+
     }
 }
