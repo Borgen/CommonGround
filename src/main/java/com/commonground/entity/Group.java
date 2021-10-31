@@ -25,7 +25,7 @@ public class Group {
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifyDate;
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
     private List<GroupMember> members;
 
     private String joinPhrase;

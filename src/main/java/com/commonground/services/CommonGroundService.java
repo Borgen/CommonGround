@@ -40,7 +40,7 @@ public class CommonGroundService {
 
 
         for(User user : userList){
-            currUserAvailability = userAvailabilityService.getLatestAvailability();
+            currUserAvailability = userAvailabilityService.getLatestAvailability(user);
             if(currUserAvailability == null){
                 continue;
             }
