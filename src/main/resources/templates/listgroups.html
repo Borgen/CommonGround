@@ -8,13 +8,13 @@
 
 <body>
 
-    <table>
-        <thead>
+    <table class="table table-striped">
+        <thead class="thead-dark">
         <tr>
-            <th> Date Created </th>
-            <th> Name </th>
-            <th> CommonGround Start </th>
-            <th> CommonGround End </th>
+            <th scope="col"> Date Created </th>
+            <th scope="col"> Name </th>
+            <th scope="col"> CommonGround Start </th>
+            <th scope="col"> CommonGround End </th>
         </tr>
         </thead>
         <tbody>
@@ -23,8 +23,8 @@
             <td th:text="${current.getGroup().getName()}"></td>
             <td th:text="${current.getDateRange()?.getStartDate()}"></td>
             <td th:text="${current.getDateRange()?.getEndDate()}"></td>
-            <td><a href="/group/details" th:href="@{/group/details(groupName=${current.getGroup().getName()})}">Details...</a></td>
-            <td><a href="/group/join" th:href="@{/group/joinlink(groupId=${current.getGroup().getId()})}">Get Your Join Link...</a></td>
+            <td><a class="btn btn-info" role="button" th:href="@{/group/details(groupId=${current.getGroup().getId()})}">Details...</a></td>
+            <td><a class="btn btn-info" role="button" th:href="@{/group/joinlink(groupId=${current.getGroup().getId()})}">Get Your Join Link</a></td>
         </tr>
         </tbody>
 

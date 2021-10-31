@@ -27,8 +27,8 @@ public class UserAvailabilityService {
         return userAvailabilityRepository.findByUser(authenticationFacade.getUser());
     }
 
-    public UserAvailability getLatestAvailability() throws Exception {
-        return userAvailabilityRepository.findTopByUserOrderByCreateDateDesc(authenticationFacade.getUser());
+    public UserAvailability getLatestAvailability(User user) throws Exception {
+        return userAvailabilityRepository.findTopByUserOrderByCreateDateDesc(user);
     }
 
 }

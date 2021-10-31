@@ -7,6 +7,7 @@ import com.commonground.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.*;
 
 @Controller
@@ -52,6 +55,8 @@ public class GroupController {
 
     @GetMapping("/list")
     public String showListOfUserGroups(WebRequest request, Model model) throws Exception {
+
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT);
         List<Group> groups = groupService.findByMember(authenticationFacade.getUser());
         List<GroupDto> groupDtoList = new ArrayList<GroupDto>();
         for(Group group :  groups){
@@ -61,7 +66,7 @@ public class GroupController {
 
                 CommonGround commonGround = commonGroundService.getCommonGroundOfGroup(group);
                 if(commonGround != null){
-                    DateRange dateRange = new DateRange(commonGround.getStartDateTime().toString(), commonGround.getEndDateTime().toString());
+                    DateRange dateRange = new DateRange(commonGround.getStartDateTime().format(dateTimeFormatter), commonGround.getEndDateTime().format(dateTimeFormatter));
                     groupDto.setDateRange(dateRange);
                 }
 
@@ -77,8 +82,9 @@ public class GroupController {
     }
 
     @GetMapping("/details")
-    public String showDetailsOfUserGroups(WebRequest request, @RequestParam String groupName, Model model) throws Exception {
-        model.addAttribute("groupMembers", groupService.listGroupMembersByGroupName(groupName));
+    public String showDetailsOfUserGroups(WebRequest request, @RequestParam String groupId, Model model) throws Exception {
+        List<GroupMemberDto> groupMemberDtos = groupService.getGroupMemberDtos(UUID.fromString(groupId));
+        model.addAttribute("groupMembers", groupMemberDtos);
         return "groupdetails";
     }
 

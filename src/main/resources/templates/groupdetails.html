@@ -4,25 +4,28 @@
 <head>
   <div th:replace="/fragments/basic :: headerfiles"></div>
   <title>Group Details</title>
-<head>
-<body>
-<table>
-  <thead>
-  <tr>
-    <th> Index </th>
-    <th> First Name </th>
-    <th> Last Name </th>
-    <th> Email </th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="currentGroupMember, iteration : ${groupMembers}">
-    <td th:text="${iteration.count}"></td>
-    <td th:text="${currentGroupMember.getMember().getFirstName()}" ></td>
-    <td th:text="${currentGroupMember.getMember().getLastName()}" ></td>
-    <td th:text="${currentGroupMember.getMember().getEmail()}" ></td>
-  </tr>
-  </tbody>
+</head>
+  <table class="table table-striped">
+    <thead class="thead-dark">
+    <tr>
+      <th> Index </th>
+      <th> First Name </th>
+      <th> Last Name </th>
+      <th> Availability Start Date</th>
+      <th> End Date</th>
+      <th> Email </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="currentGroupMember, iteration : ${groupMembers}">
+      <td th:text="${iteration.count}"></td>
+      <td th:text="${currentGroupMember.getFirstName()}" ></td>
+      <td th:text="${currentGroupMember.getLastName()}" ></td>
+      <td th:text="${currentGroupMember.getAvailablityStartDate()}" ></td>
+      <td th:text="${currentGroupMember.getAvailabilityEndDate()}" ></td>
+      <td th:text="${currentGroupMember.getEmail()}" ></td>
+    </tr>
+    </tbody>
 
 </table>
 </body>
