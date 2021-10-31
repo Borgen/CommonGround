@@ -7,7 +7,8 @@
 </head>
 
 <body>
-
+<div sec:authorize="isAuthenticated()">
+    Authenticated as <span sec:authentication="name"></span></div>
     <table class="table table-striped">
         <thead class="thead-dark">
         <tr>

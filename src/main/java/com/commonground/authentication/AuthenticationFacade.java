@@ -1,8 +1,9 @@
 package com.commonground.authentication;
 
-import com.commonground.dto.GoogleUserInfo;
+import com.commonground.dto.*;
 import com.commonground.entity.User;
 import com.commonground.services.UserService;
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,15 +24,17 @@ public class AuthenticationFacade implements IAuthenticationFacade {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
+    private Logger logger = LoggerFactory.getLogger(AuthenticationFacade.class);
+
     @Override
     public User getUser() throws Exception {
-        DefaultOidcUser principal = (DefaultOidcUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-       GoogleUserInfo googleUserInfo = new GoogleUserInfo(principal.getAttributes());
-       Optional<User> optionalUser = userService.findByEmail(googleUserInfo.getEmail());
-       if(optionalUser.isPresent()){
-           return optionalUser.get();
-       }
-       throw new Exception("User not found!");
+        GoogleUser googleUser = (GoogleUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<User> optionalUser = userService.findByEmail(googleUser.getEmail());
+        logger.info("User info get name: " + googleUser.getName() );
+        if(optionalUser.isPresent()){
+            return optionalUser.get();
+        }
+        throw new Exception("User not found!");
     }
 
 }

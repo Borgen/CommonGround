@@ -28,6 +28,7 @@ public class Group {
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
     private List<GroupMember> members;
 
+    @Column(unique = true)
     private String joinPhrase;
 
     public UUID getId() {
