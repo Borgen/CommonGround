@@ -23,6 +23,8 @@ public class User {
 
     private String oAuthId;
 
+    private String pictureURL;
+
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
@@ -72,5 +74,14 @@ public class User {
 
     public void setoAuthId(String oAuthId) {
         this.oAuthId = oAuthId;
+    }
+
+
+    public String getPictureURL() {
+        return pictureURL;
+    }
+
+    public void setPictureURL(String pictureURL) {
+        this.pictureURL = pictureURL;
     }
 }

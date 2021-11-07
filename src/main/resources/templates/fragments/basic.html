@@ -14,6 +14,22 @@
     <script th:src="@{/webjars/jquery-ui/jquery-ui.js}"></script>
 </div>
 
+<div th:fragment="loggedInUser" th:remove="tag">
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+        <div sec:authorize="isAuthenticated()">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    Logged in as <span th:text="${loggedInUserInfo.getFirstName()}"></span>
+                    <img th:src="${loggedInUserInfo.getPictureURL()}">
+                </li>
+            </ul>
+        </div>
+        <div sec:authorize="isAnonymous()">
+        </div>
+    </nav>
+</div>
+
+
 
 </body>
 </html>

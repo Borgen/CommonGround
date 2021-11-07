@@ -3,7 +3,14 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <div th:replace="/fragments/basic :: headerfiles"></div>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+        .ui-autocomplete
+        {
+            position:absolute;
+            cursor:default;
+            z-index:1001 !important
+        }
+    </style>
     <title>Search Existing Groups!</title>
     <script type="text/javascript">
         $(document).ready(function() {

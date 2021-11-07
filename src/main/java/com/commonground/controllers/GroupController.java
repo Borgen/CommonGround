@@ -20,6 +20,7 @@ import java.time.format.FormatStyle;
 import java.util.*;
 
 @Controller
+@ControllerAdvice
 @RequestMapping("/group")
 public class GroupController {
 
@@ -116,4 +117,12 @@ public class GroupController {
         return "searchgroups";
     }
 
+    @ModelAttribute
+    public void addGlobalAttributes(Model model) {
+        try {
+            model.addAttribute("loggedInUserInfo", authenticationFacade.getUser());
+        } catch (Exception e) {
+            logger.error("User objesi modele eklenirken hata: ", e);
+        }
+    }
 }

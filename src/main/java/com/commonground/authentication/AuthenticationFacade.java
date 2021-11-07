@@ -30,7 +30,8 @@ public class AuthenticationFacade implements IAuthenticationFacade {
     public User getUser() throws Exception {
         GoogleUser googleUser = (GoogleUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<User> optionalUser = userService.findByEmail(googleUser.getEmail());
-        logger.info("User info get name: " + googleUser.getName() );
+        logger.trace("User info retrieved, get name: " + googleUser.getName() );
+        logger.trace("User info retrieved, get profile pic url: " + googleUser.getPictureURL() );
         if(optionalUser.isPresent()){
             return optionalUser.get();
         }

@@ -7,8 +7,7 @@
 </head>
 
 <body>
-<div sec:authorize="isAuthenticated()">
-    Authenticated as <span sec:authentication="name"></span></div>
+<div th:replace="/fragments/basic :: loggedInUser"></div>
     <table class="table table-striped">
         <thead class="thead-dark">
         <tr>

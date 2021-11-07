@@ -43,7 +43,9 @@ public class CustomOidcUserService extends OidcUserService {
         if (!userOptional.isPresent()) {
             User user = new User(googleUser.getFirstName(), googleUser.getLastName(), googleUser.getEmail());
             user.setoAuthId(googleUser.getId());
+            user.setPictureURL(googleUser.getPictureURL());
             userService.save(user);
+            return googleUser;
         }
 
         return googleUser;
