@@ -11,9 +11,9 @@
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logFile.log</file>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
-        </filter>
+        <encoder>
+            <Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} - %msg%n</Pattern>
+        </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
             <fileNamePattern>logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -24,9 +24,6 @@
 
         </rollingPolicy>
 
-        <encoder>
-            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
-        </encoder>
     </appender>
 
     <appender name="DBAppPostgreSQL" class="ch.qos.logback.classic.db.DBAppender">
@@ -48,9 +45,9 @@
         <appender-ref ref="DBAppPostgreSQL" />
     </logger>
 
-    <root level="debug">
+    <root level="trace">
         <appender-ref ref="STDOUT" />
-        <appender-ref ref="FILE" level="info" />
+        <appender-ref ref="FILE" />
     </root>
 
 </configuration>
