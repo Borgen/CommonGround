@@ -1,0 +1,28 @@
+body {
+    margin-right: 10rem;
+    margin-left: 10rem;
+
+}
+
+table {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+nav {
+    text-align: right;
+}
+
+.profile-pic {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+.warning-text {
+    color: red;
+}
+
+.result{
+    text-align: center;
+}

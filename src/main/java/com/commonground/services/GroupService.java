@@ -10,6 +10,8 @@ import com.commonground.repositories.GroupMemberRepository;
 import com.commonground.repositories.GroupRepository;
 import com.commonground.util.RandomString;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,8 @@ import java.util.UUID;
 
 @Service
 public class GroupService {
+
+    private Logger logger = LoggerFactory.getLogger(GroupService.class.getName());
 
     @Autowired
     private GroupRepository groupRepository;
@@ -49,6 +53,11 @@ public class GroupService {
         List<Group> groups = groupRepository.findByMember(user.getId());
         return groups;
     }
+
+    public Group findById(UUID groupId){
+      return groupRepository.findById(groupId).get();
+    }
+
     public void addGroupMemberToGroup(Group group, User user, Boolean isOwner) throws Exception {
         Optional<Group> groupEntity = groupRepository.findByName(group.getName());
         GroupMember groupMemberEntity = new GroupMember();

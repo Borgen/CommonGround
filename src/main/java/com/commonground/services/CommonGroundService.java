@@ -1,7 +1,11 @@
 package com.commonground.services;
 
 import com.commonground.entity.*;
+import com.commonground.exceptions.CommonGroundDateExpiredException;
+import com.commonground.exceptions.CommonGroundNotFoundException;
 import com.commonground.repositories.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
@@ -11,6 +15,8 @@ import java.util.stream.*;
 
 @Service
 public class CommonGroundService {
+
+    private Logger logger = LoggerFactory.getLogger(CommonGroundService.class.getName());
 
     @Autowired
     private CommonGroundRepository commonGroundRepository;
@@ -56,7 +62,12 @@ public class CommonGroundService {
         }
 
         if(latestStartDate == null || earliestEndDate == null){
-            return null;
+            logger.warn("Common ground not found! Earliest end date or latest start date is null!");
+            throw new CommonGroundNotFoundException("Dates cannot be calculated!");
+        }
+        if(latestStartDate.isAfter(earliestEndDate)){
+            logger.warn("Common ground not found! Latest available start date is after earliest end date.");
+            throw new CommonGroundDateExpiredException("Earliest mutual end date expired!");
         }
 
         CommonGround commonGround = new CommonGround();

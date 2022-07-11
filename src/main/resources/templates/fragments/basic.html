@@ -8,19 +8,22 @@
 
 <div th:fragment="headerfiles" th:remove="tag">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
     <link th:rel="stylesheet" th:href="@{/webjars/jquery-ui/jquery-ui.theme.css} "/>
-    <link rel="stylesheet" href="/styles/global.css" />
+
+    <link rel="stylesheet" href="/css/marx.css" />
+    <link rel="stylesheet" href="/css/global.css" />
+
+
     <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
     <script th:src="@{/webjars/jquery-ui/jquery-ui.js}"></script>
 </div>
 
 <div th:fragment="loggedInUser" th:remove="tag">
-    <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <nav>
         <div sec:authorize="isAuthenticated()">
-            <ul class="navbar-nav">
-                <li class="nav-item logged-in-user">
-                    <img class="profile-pic" th:src="${loggedInUserInfo.getPictureURL()}">
+            <ul>
+                <li>
+                    <img class="profile-pic" th:src="${loggedInUserInfo.getPictureURL()}" referrerpolicy="no-referrer">
                     Logged in as <span th:text="${loggedInUserInfo.getFirstName()}"></span>
 
                 </li>

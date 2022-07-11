@@ -5,9 +5,10 @@
   <div th:replace="/fragments/basic :: headerfiles"></div>
   <title>Group Details</title>
 </head>
-<div th:replace="/fragments/basic :: loggedInUser"></div>
-  <table class="table table-striped">
-    <thead class="thead-dark">
+  <h3>Details of the group <span th:text="${group.getName()}"></span> </h3>
+  <p>This group is created on <span th:text="${group.getCreateDate()}"></span></p>
+  <table>
+    <thead>
     <tr>
       <th> Index </th>
       <th> First Name </th>
@@ -29,5 +30,9 @@
     </tbody>
 
 </table>
+
+<br>
+<a href="/group/list">Return to your list of groups...</a>
+
 </body>
 </html>

@@ -8,26 +8,41 @@
 
 <body>
 <div th:replace="/fragments/basic :: loggedInUser"></div>
-    <table class="table table-striped">
-        <thead class="thead-dark">
+    <h3>List of your groups</h3>
+    <table>
+        <thead>
         <tr>
-            <th scope="col"> Date Created </th>
+            <th scope="col"> Status </th>
             <th scope="col"> Name </th>
+            <th scope="col"> Members </th>
             <th scope="col"> CommonGround Start </th>
             <th scope="col"> CommonGround End </th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="current, iteration : ${groups}">
-            <td th:text="${current.getGroup().getCreateDate()}"></td>
-            <td th:text="${current.getGroup().getName()}"></td>
-            <td th:text="${current.getDateRange()?.getStartDate()}"></td>
-            <td th:text="${current.getDateRange()?.getEndDate()}"></td>
-            <td><a class="btn btn-info" role="button" th:href="@{/group/details(groupId=${current.getGroup().getId()})}">Details...</a></td>
-            <td><a class="btn btn-info" role="button" th:href="@{/group/joinlink(groupId=${current.getGroup().getId()})}">Get Your Join Link</a></td>
+            <td th:if="${current.getCommonGroundAvailable()}">🟩</td>
+            <td th:unless="${current.getCommonGroundAvailable()}">⛔</td>
+
+            <td th:text="${current.getName()}"></td>
+            <td th:text="${current.getMemberPreviewText()}"></td>
+
+            <div th:unless="${current.getCommonGroundAvailable()}">
+                <td class="warning-text" colspan="2" th:text="${current.getCommonGroundErrorDescription()}"></td>
+            </div>
+            <div th:if="${current.getCommonGroundAvailable()}">
+                <td th:text="${current.getDateRange()?.getStartDate()}"></td>
+                <td th:text="${current.getDateRange()?.getEndDate()}"></td>
+            </div>
+            <td><a th:href="@{/group/details(groupId=${current.getId()})}">Details...</a></td>
+            <td><a th:href="@{/group/joinlink(groupId=${current.getId()})}">Get Your Join Link</a></td>
         </tr>
         </tbody>
 
 </table>
+
+
+<h5><a href="/group/create">Create a new one here!</a></h5>
+
 </body>
 </html>

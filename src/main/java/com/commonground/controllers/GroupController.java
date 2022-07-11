@@ -3,6 +3,8 @@ package com.commonground.controllers;
 import com.commonground.authentication.IAuthenticationFacade;
 import com.commonground.dto.*;
 import com.commonground.entity.*;
+import com.commonground.exceptions.CommonGroundDateExpiredException;
+import com.commonground.exceptions.CommonGroundNotFoundException;
 import com.commonground.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,12 +65,32 @@ public class GroupController {
         for(Group group :  groups){
             try{
                 GroupDto groupDto = new GroupDto();
-                groupDto.setGroup(groupService.findByName(group.getName()));
+                groupDto.setName(group.getName());
+                groupDto.setCreateDate(group.getCreateDate());
+                groupDto.setMembers(group.getMembers());
+                groupDto.setId(group.getId().toString());
 
-                CommonGround commonGround = commonGroundService.getCommonGroundOfGroup(group);
+
+                CommonGround commonGround = null;
+                try {
+                    commonGround = commonGroundService.getCommonGroundOfGroup(group);
+                }
+                catch (CommonGroundNotFoundException commonGroundNotFoundException){
+                    groupDto.setCommonGroundErrorDescription(commonGroundNotFoundException.getMessage());
+                    groupDto.setCommonGroundAvailable(false);
+                }
+                catch (CommonGroundDateExpiredException commonGroundDateExpiredException){
+                    groupDto.setCommonGroundErrorDescription(commonGroundDateExpiredException.getMessage());
+                    groupDto.setCommonGroundAvailable(false);
+                }
+                catch (Exception e) {
+                    groupDto.setCommonGroundAvailable(false);
+                }
                 if(commonGround != null){
                     DateRange dateRange = new DateRange(commonGround.getStartDateTime().format(dateTimeFormatter), commonGround.getEndDateTime().format(dateTimeFormatter));
                     groupDto.setDateRange(dateRange);
+                    groupDto.setCommonGroundAvailable(true);
+                    
                 }
 
                 groupDtoList.add(groupDto);
@@ -85,7 +107,14 @@ public class GroupController {
     @GetMapping("/details")
     public String showDetailsOfUserGroups(WebRequest request, @RequestParam String groupId, Model model) throws Exception {
         List<GroupMemberDto> groupMemberDtos = groupService.getGroupMemberDtos(UUID.fromString(groupId));
+        Group group = groupService.findById(UUID.fromString(groupId));
+        GroupDto groupDto = new GroupDto();
+        groupDto.setName(group.getName());
+        groupDto.setCreateDate(group.getCreateDate());
+
         model.addAttribute("groupMembers", groupMemberDtos);
+        model.addAttribute("group", groupDto);
+
         return "groupdetails";
     }
 
